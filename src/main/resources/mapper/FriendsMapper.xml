@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xiong.blog.dao.FriendsDao">
+    <select id="userFindByFriendsId" resultType="com.xiong.blog.vo.FriendsVo">
+        SELECT u.*,uf.add_time,uf.user_note,uf.user_status
+        FROM t_user AS u RIGHT JOIN t_user_friends as uf
+                                    ON u.id=uf.user_friends_id
+        WHERE uf.user_id=${userId}
+    </select>
+
+    <select id="FriendsCount" resultType="long">
+        SELECT count(*)
+        FROM t_user AS u RIGHT JOIN t_user_friends as uf
+                                    ON u.id=uf.user_friends_id
+        WHERE uf.user_id=${userId}
+    </select>
+    <select id="hasFriends" resultType="com.xiong.blog.entity.FriendsEntity">
+        SELECT *
+        FROM t_user_friends
+        WHERE user_id=${userId}
+        and user_friends_id=${targetId}
+    </select>
+    <delete id="deleteFriendById">
+        delete
+        from t_user_friends
+        where user_id=${userId}
+          and user_friends_id=${friendsId}
+    </delete>
+</mapper>

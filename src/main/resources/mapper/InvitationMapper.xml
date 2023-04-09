@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiong.blog.dao.InvitationDao">
+
+    <resultMap id="indexDataResultMap" type="com.xiong.blog.vo.IndexDataVo">
+        <association property="userEntity" javaType="com.xiong.blog.entity.UserEntity">
+            <id column="uid" property="id"/>
+            <result column="head_Url" property="headUrl"></result>
+            <result column="username" property="username"></result>
+        </association>
+        <association property="invitationEntity" javaType="com.xiong.blog.entity.InvitationEntity">
+            <id column="tiid" property="id"></id>
+            <result column="title" property="title"></result>
+            <result column="content" property="content"></result>
+            <result column="create_time" property="createTime"></result>
+        </association>
+
+        <association property="invitationDataEntity" javaType="com.xiong.blog.entity.InvitationDataEntity">
+            <id column="tdid" property="id"></id>
+            <result column="pv" property="pv"></result>
+            <result column="likes" property="likes"></result>
+            <result column="comments" property="comments"></result>
+            <result column="collect" property="collect"></result>
+            <result column="tid" property="tid"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectIndexData" resultMap="indexDataResultMap">
+        SELECT
+            t1.*,u.*,t2.*
+             ,u.id as uid
+             ,t1.id as tiid
+             , t2.id as tdid
+        FROM
+            t_invitation AS t1
+                LEFT JOIN t_user AS u ON t1.uid = u.id
+                LEFT JOIN t_invitation_data AS t2 ON t1.id = t2.tid
+        ORDER BY t1.create_time DESC
+    </select>
+    <select id="selectUserPostList" resultMap="indexDataResultMap">
+        SELECT
+            t1.*,u.*,t2.*
+             ,u.id as uid
+             ,t1.id as tiid
+             , t2.id as tdid
+        FROM
+            t_invitation AS t1
+                LEFT JOIN t_user AS u ON t1.uid = u.id
+                LEFT JOIN t_invitation_data AS t2 ON t1.id = t2.tid
+        WHERE u.id=#{userId}
+        ORDER BY t1.create_time DESC
+    </select>
+</mapper>

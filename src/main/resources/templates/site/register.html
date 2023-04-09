@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/global.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <title>Echo - 注册</title>
+
+
+</head>
+<body>
+<div class="nk-container">
+
+    <!-- 头部 -->
+    <header class="bg-dark sticky-top" th:replace="index::header"></header>
+
+    <!-- 内容 -->
+    <div class="main">
+        <div class="container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3">
+            <h3 class="text-center text-info border-bottom pb-3">注&nbsp;&nbsp;册</h3>
+            <form id="user-register-form" class="mt-5" method="post" th:action="@{/user/register}"
+                  onsubmit="return registerFromSubmit()">
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label text-right">账号:</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="username"
+                               th:class="|form-control ${usernameMsg!=null ? 'is-invalid' : ''}|"
+                               value="admin"
+                               name="username" placeholder="请输入您的账号!" required>
+                        <!--错误提示消息, 当 上面的 input class = is-invalid 时显示-->
+                        <div class="invalid-feedback" th:text="${usernameMsg}"></div>
+                    </div>
+                </div>
+                <div class="form-group row mt-4">
+                    <label for="password" class="col-sm-2 col-form-label text-right">密码:</label>
+                    <div class="col-sm-10">
+                        <input type="password" id="password"
+                               th:class="|form-control ${passwordMsg!=null ? 'is-invalid' : ''}|"
+                               value="admin"
+                               name="pwd" placeholder="请输入您的密码!" required>
+                        <!--错误提示消息-->
+                        <div class="invalid-feedback" th:text="${passwordMsg}"></div>
+                    </div>
+                </div>
+                <div class="form-group row mt-4">
+                    <label for="confirm-password" class="col-sm-2 col-form-label text-right">确认密码:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="confirm-password"
+                               value="admin"
+                               placeholder="请再次输入密码!" required>
+                        <div class="invalid-feedback">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-2 col-form-label text-right">邮箱:</label>
+                    <div class="col-sm-10">
+                        <input type="email" id="email"
+                               th:class="|form-control ${emailMsg!=null ? 'is-invalid' : ''}|"
+                               value="admin@qf.com"
+                               name="email" placeholder="请输入您的邮箱!" required>
+                        <!--错误提示消息-->
+                        <div class="invalid-feedback" th:text="${emailMsg}"></div>
+                    </div>
+                </div>
+                <div class="form-group row mt-4">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10 text-center">
+                        <button type="submit" class="btn btn-info text-white form-control">立即注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 尾部 -->
+    <footer class="bg-dark" th:replace="index::footer"></footer>
+</div>
+
+<script th:src="@{/js/jquery-3.1.0.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/global.js}"></script>
+<script th:src="@{/js/register.js}"></script>
+<script th:src="@{/js/httpUtils.js}"></script>
+
+<script type="text/javascript">
+    function registerFromSubmit() {
+
+        // 1.获取表单对象
+        var form = $("#user-register-form");
+
+        // 2.提交表单数据
+        submitForm("user/register", form, function (resp) {
+            if (resp.code == 0) {
+                // 这里跳转吗必须要放在ajax的回调函数当中，因为ajax是异步的，必须要注册成功后才能跳转，这是有顺序
+                location.href = "http://localhost:8001/site/login.html";
+            }
+        });
+
+        // 2.跳转到登录页面
+        // location.href = "http://localhost:8001/site/login.html";
+
+        return false; // true表单又提交了
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/b1
+  mail:
+    host: smtp.qq.com
+    username: 359704157@qq.com
+    password: gobxjoxlffplbida #
+  redis:
+    host: 127.0.0.1
+#    password: root
+server:
+  port: 8001
+logging:
+  level:
+    com.xiong: debug
+blog:
+  host: http://localhost:${server.port}/
